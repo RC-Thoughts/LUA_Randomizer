@@ -1,0 +1,8 @@
+{
+  "default":"en",
+  "en":{
+	"appName":"RCT-Randomizer",
+	"testSw":"Set Test-Switch",
+    "reScan":"To Re-Scan Audio Folder Select this"
+  }
+}
