@@ -23,7 +23,7 @@
 --]]
 --------------------------------------------------------------------------------
 -- Locals for application
-local audioFiles, playDone, folder, testSw = {}, false, "Apps/StartVoices"
+local audioFiles, playDone, lastPlay, folder, testSw = {}, false, "", "Apps/StartVoices"
 --------------------------------------------------------------------------------
 -- Read and set translations
 local function setLanguage()
@@ -42,11 +42,16 @@ function voiceDir()
             table.insert(audioFiles, fullName)
         end
     end
-    --for key,value in pairs(audioFiles) do print(value) end
 end
 --------------------------------------------------------------------------------
 local function randomPlay()
-    system.playFile((audioFiles[math.random(#audioFiles)]),AUDIO_QUEUE)
+    math.randomseed(math.random(system.getTimeCounter()))
+    system.pLoad("lastPlay", "")
+    repeat
+        audioFile = (audioFiles[math.random(#audioFiles)])
+    until audioFile ~= lastPlay
+    system.playFile(audioFile,AUDIO_QUEUE)
+    system.pSave("lastPlay", audioFile)
 end
 ----------------------------------------------------------------------
 -- Actions when settings changed
@@ -88,13 +93,14 @@ end
 local function init()
     local pLoad, registerForm = system.pLoad, system.registerForm
 	testSw = pLoad("testSw")
+    lastPlay = pLoad("lastPlay", "")
     registerForm(1, MENU_APPS, trans32.appName, initForm)
     voiceDir()
     randomPlay()
     collectgarbage()
 end
 --------------------------------------------------------------------------------
-randomizerVersion = "1.0"
+randomizerVersion = "1.1"
 setLanguage()
 collectgarbage()
 return {init=init, loop=loop, author="RC-Thoughts", version=randomizerVersion, name=trans32.appName}

@@ -9,3 +9,7 @@
 2018-04-07  Tero Salminen  <tero@rc-thoughts.com>
 
     * v.1.0 First release
+
+2018-04-09  Tero Salminen  <tero@rc-thoughts.com>
+
+    * v.1.1 Re-defined randomizer - Ensuring same file is not played twice in a row
